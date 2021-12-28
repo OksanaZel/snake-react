@@ -1,29 +1,39 @@
 import React from "react";
-import db from "../../db/db.json";
-import { Main, Table, TableHead, TableTitle, TableList } from "./List.styled";
+import PropTypes from "prop-types";
+import { TabContainer, Tab, TabCell, TabHead, TabRow, TabBody } from "./List.styled";
 
-function List() {
+function List({users}) {
   return (
-    <Main>
-      <Table>
-        <TableHead>
-          <TableTitle>Name</TableTitle>
-          <TableTitle>Score</TableTitle>
-        </TableHead>
-
-        {
-          <TableList>
-            {db.map(({ id, user, score }) => (
-              <li key={id}>
-                {user}
-                {score}
-              </li>
-            ))}
-          </TableList>
-        }
-      </Table>
-    </Main>
+    <TabContainer>
+      <Tab>
+        <TabHead>
+          <TabRow>
+            <TabCell>User name</TabCell>
+            <TabCell>Score</TabCell>
+          </TabRow>
+        </TabHead>
+        <TabBody>
+          {users.map(({id, name, score}) => (
+            <TabRow
+              key={id}
+            >
+              <TabCell>{name}</TabCell>
+              <TabCell>{score}</TabCell>
+            </TabRow>
+          ))}
+        </TabBody>
+      </Tab>
+    </TabContainer>
   );
 }
+
+List.propTypes = {
+    users: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+      name: PropTypes.string,
+        score: PropTypes.number,
+    })),
+}
+
 
 export default List;

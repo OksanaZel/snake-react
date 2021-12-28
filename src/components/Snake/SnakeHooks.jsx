@@ -177,9 +177,9 @@ export default function SnakeHooks() {
         <SnakeBody snakeDots={snakeDots} />
         <SnakeFood dot={food} />
       </SnakeBox>
-      <ScoreContainer>
+      {/* <ScoreContainer>
         SCORE: {score} SPEED: {speed} COUNT: {count}
-      </ScoreContainer>
+      </ScoreContainer> */}
     </>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Form, Label, Input, Button } from "./From.styled";
+import { Form, Label, Input, Button } from "./UserFrom.styled";
 
 export default function UserForm({ onSubmit }) {
   const formik = useFormik({
@@ -16,7 +16,6 @@ export default function UserForm({ onSubmit }) {
         .required("Required"),
     }),
     onSubmit: (values, { setSubmitting, resetForm }) => {
-      console.log(values);
       onSubmit(values), setSubmitting(false), resetForm();
     },
   });
@@ -36,7 +35,6 @@ export default function UserForm({ onSubmit }) {
       </Label>
 
       <Button type="submit" disabled={formik.isSubmitting}>
-        {" "}
         Submit
       </Button>
     </Form>

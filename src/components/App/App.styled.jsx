@@ -1,9 +1,12 @@
 import styled from "@emotion/styled";
 
 export const Container = styled.div`
+padding: 25px;
+width: 800px;
+margin: 0 auto;
+`;
+
+export const SnakeContainer = styled.div`
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  flex-wrop: nowrap;
-  padding: 30px;
+  justify-content: space-between;
 `;

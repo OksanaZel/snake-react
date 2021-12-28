@@ -181,9 +181,9 @@ export default class Snake extends Component {
           <SnakeBody snakeDots={this.state.snakeDots} />
           <SnakeFood dot={this.state.food} />
         </SnakeBox>
-        <ScoreContainer>
+        {/* <ScoreContainer>
           SCORE: {this.state.score} SPEED: {this.state.speed}
-        </ScoreContainer>
+        </ScoreContainer> */}
       </>
     );
   }

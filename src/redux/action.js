@@ -3,7 +3,7 @@ export const userName = name => ({
   payload: name,
 });
 
-// export const userScore = score => ({
-//   type: "user/score",
-//   payload: score,
-// });
+export const userScore = score => ({
+  type: "user/score",
+  payload: score,
+});

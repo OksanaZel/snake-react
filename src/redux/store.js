@@ -10,8 +10,8 @@ const reducer = (state = initialState, { type, payload }) => {
     case "user/Name":
       return [...state, payload];
 
-    // case "user/Score":
-    //   return;
+    case "user/Score":
+      return { score: state.score + payload };
 
     default:
       return state;

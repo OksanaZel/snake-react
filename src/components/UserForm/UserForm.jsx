@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Form, Label, Input, Button } from "./UserFrom.styled";
+import { connect } from "react-redux";
+import {addUser} from "../../redux/action"
 
-export default function UserForm({ onSubmit }) {
+function UserForm({ onSubmit }) {
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -44,3 +46,9 @@ export default function UserForm({ onSubmit }) {
 UserForm.propTypes = {
   onSubmit: PropTypes.func,
 };
+
+const mapDispatchToProps = dispatch => ({
+  onSubmit: values=>dispatch(addUser(values))
+})
+
+export default connect(null, mapDispatchToProps)(UserForm)

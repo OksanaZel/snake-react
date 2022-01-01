@@ -1,37 +1,51 @@
 // import "./App.styled.jsx";
-import React, { useState } from "react";
-import { nanoid } from "nanoid";
-// import Snake from 'react-simple-snake'
-// import Snake from "../Snake/Snake";
+import React from "react";
+import PropTypes from "prop-types";
 import SnakeHooks from "../Snake/SnakeHooks";
-// import SnakeGrid from "../Snake/SnakeGrid";
 import { Container, SnakeContainer } from "./App.styled";
 import UserForm from "../UserForm/UserForm";
 import List from "../List/List";
+import {connect} from "react-redux"
 
-function App() {
-  const [users, setUsers] = useState([]);
+function App({ users }) {
 
-  const addUser = ({ name }) => {
+  const [id] = users.map((user) => user.id);
+  // console.log(id)
+  
+  // const [users, setUsers] = useState([]);
 
-    const user = {
-      id: nanoid(2),
-      name,
-      score: 0,
-    }
+  // const addUser = ({ name }) => {
 
-      setUsers(prevUsers => [ user,...prevUsers])
-  }
+  //   const user = {
+  //     id: nanoid(2),
+  //     name,
+  //     score: 0,
+  //   }
+
+  //     setUsers(prevUsers => [ user,...prevUsers])
+  // }
 
   return (
       <Container>
-      <UserForm onSubmit={addUser}/>
+      <UserForm/>
     <SnakeContainer>
-      <SnakeHooks />
+        <SnakeHooks id={id}/>
       <List users={users} />
       </SnakeContainer>
       </Container>
   );
 }
 
-export default App;
+App.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    score:PropTypes.number,
+  }),),
+};
+
+const mapStateToProps = state => ({
+  users: state.users,
+})
+
+export default connect(mapStateToProps)(App);

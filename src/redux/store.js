@@ -1,23 +1,11 @@
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import usersReducer from "./reducer";
 
-const initialState = {
-  name: "",
-  score: 0,
-};
+const rootReducer = combineReducers({
+  users: usersReducer,
+});
 
-const reducer = (state = initialState, { type, payload }) => {
-  switch (type) {
-    case "user/Name":
-      return [...state, payload];
-
-    case "user/Score":
-      return { score: state.score + payload };
-
-    default:
-      return state;
-  }
-};
-
-const store = createStore(reducer);
+const store = createStore(rootReducer, composeWithDevTools());
 
 export default store;

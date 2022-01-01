@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { getEmptyRows } from "../utils/getEmptyRows";
 import { getRandomCoordinates } from "../utils/getRandomCoordinates";
 import { increaseSpeed } from "components/utils/increaseSpeed";
-import { SnakeBox, SnakeGrid, ScoreContainer } from "./Snake.styled";
+import { SnakeBox, SnakeGrid} from "./Snake.styled";
 import SnakeBody from "./SnakeBody";
 import SnakeFood from "./SnakeFood";
+import { connect } from "react-redux";
+import {changeScore} from "../../redux/action"
 
 const LEFT = 37;
 const UP = 38;
@@ -12,21 +15,24 @@ const RIGHT = 39;
 const DOWN = 40;
 const STOP = 32;
 
-export default function SnakeHooks() {
+function SnakeHooks({id, onChangeScore}) {
+
+  console.log(id)
+
   const [snakeDots, setSnakeDots] = useState([
     [0, 0],
     [4, 0],
   ]);
   const [food, setFood] = useState(getRandomCoordinates());
   const [speed, setSpeed] = useState(100);
-  const [score, setScore] = useState(0);
+  // const [score, setScore] = useState(0);
   const [count, setCount] = useState(0);
   // const [alive, setAlive] = useState(false);
   const [direction, setDirection] = useState(RIGHT);
   const [grid, setGrid] = useState(getEmptyRows());
   // const [name, setName] = useState('Play');
   const intervalId = useRef(null);
-
+  
   useEffect(() => {
     window.onkeydown = onKeyDown;
     checkOutOfBorders();
@@ -123,21 +129,25 @@ export default function SnakeHooks() {
     });
   }
 
+  let score = 0;
+
   function enlargeSnake() {
     let newSnake = [...snakeDots];
-    let newScore = score;
+    // let newScore = score;
     let newCountFeed = count;
     newCountFeed += 1;
-    newScore =
+    score =
       newCountFeed === 1
-        ? newScore + 1
+        ? score + 1
         : newCountFeed === 2
-        ? newScore + 5
-        : newScore + 10;
+        ? score + 5
+        : score + 10;
     newSnake.unshift([]);
     setSnakeDots(newSnake);
     setCount(newCountFeed);
-    setScore(newScore);
+    // setScore(newScore)
+    onChangeScore(id, score)
+    return score;
   }
 
   function checkIfEat() {
@@ -156,8 +166,8 @@ export default function SnakeHooks() {
       [0, 0],
       [4, 0],
     ]);
-    setSpeed(200);
-    setScore(0);
+    setSpeed(100);
+    // setScore(0);
     setCount(0);
     setDirection(RIGHT);
     setGrid(getEmptyRows());
@@ -177,9 +187,17 @@ export default function SnakeHooks() {
         <SnakeBody snakeDots={snakeDots} />
         <SnakeFood dot={food} />
       </SnakeBox>
-      {/* <ScoreContainer>
-        SCORE: {score} SPEED: {speed} COUNT: {count}
-      </ScoreContainer> */}
     </>
   );
 }
+
+SnakeHooks.propTypes = {
+  id: PropTypes.string,
+  onChangeScore: PropTypes.func,
+};
+
+const mapDispatchToProps = dispatch => ({
+  onChangeScore: (id, score) => dispatch(changeScore(id, score))
+})
+
+export default connect(null, mapDispatchToProps)(SnakeHooks)

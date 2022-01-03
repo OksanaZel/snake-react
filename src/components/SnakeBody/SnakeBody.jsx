@@ -1,5 +1,5 @@
 import React from "react";
-import { SnakeDot } from "./Snake.styled";
+import { SnakeDot } from "../Snake/Snake.styled";
 
 function SnakeBody({ snakeDots }) {
   return (

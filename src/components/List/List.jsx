@@ -1,10 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, {useEffect} from "react";
+import { useSelector,  useDispatch } from "react-redux";
 import { TabContainer, Tab, TabCell, TabHead, TabRow, TabBody } from "./List.styled";
+import { userSelectors, usersOperations } from "../../redux";
 
-function List({users}) {
+function List() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(usersOperations.fetchAllUsers());
+  }, [dispatch]);
+  
+  const users = useSelector(userSelectors.getUsers);
+
   return (
     <TabContainer>
+      <h2>Records List</h2>
       <Tab>
         <TabHead>
           <TabRow>
@@ -13,7 +23,7 @@ function List({users}) {
           </TabRow>
         </TabHead>
         <TabBody>
-          {users.map(({id, name, score}) => (
+          {users.length>0 && users.map(({id, name, score}) => (
             <TabRow
               key={id}
             >
@@ -26,14 +36,5 @@ function List({users}) {
     </TabContainer>
   );
 }
-
-List.propTypes = {
-    users: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-      name: PropTypes.string,
-        score: PropTypes.number,
-    })),
-}
-
 
 export default List;

@@ -1,12 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Form, Label, Input, Button } from "./UserFrom.styled";
-import { connect } from "react-redux";
-import {addUser} from "../../redux/action"
+import { usersOperations} from "../../redux";
 
-function UserForm({ onSubmit }) {
+function UserForm() {
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -18,7 +19,7 @@ function UserForm({ onSubmit }) {
         .required("Required"),
     }),
     onSubmit: (values, { setSubmitting, resetForm }) => {
-      onSubmit(values), setSubmitting(false), resetForm();
+      dispatch(usersOperations.createUser(values)), setSubmitting(false), resetForm();
     },
   });
   return (
@@ -43,12 +44,4 @@ function UserForm({ onSubmit }) {
   );
 }
 
-UserForm.propTypes = {
-  onSubmit: PropTypes.func,
-};
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit: values=>dispatch(addUser(values))
-})
-
-export default connect(null, mapDispatchToProps)(UserForm)
+export default UserForm;

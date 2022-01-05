@@ -11,7 +11,7 @@ function SnakeFood({ dot }) {
 }
 
 SnakeFood.propTypes = {
-  snakeDots: PropTypes.node,
+  dot: PropTypes.node,
 };
 
 export default SnakeFood;

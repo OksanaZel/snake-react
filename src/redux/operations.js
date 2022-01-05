@@ -38,18 +38,18 @@ export const createUser = createAsyncThunk(
 //   },
 // );
 
-export const updateUserScore = createAsyncThunk(
-  "users/updateUserScore",
-  async ({ id, score }, { rejectWithValue }) => {
-    try {
-      const data = await apiService.updateUserScore({ id, score });
-      // console.log(data);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  },
-);
+// export const updateUserScore = createAsyncThunk(
+//   "users/updateUserScore",
+//   async ({ id, score }, { rejectWithValue }) => {
+//     try {
+//       const data = await apiService.updateUserScore({ id, score });
+//       // console.log(data);
+//       return data;
+//     } catch (error) {
+//       return rejectWithValue(error.message);
+//     }
+//   },
+// );
 
 // export const deleteUser = createAsyncThunk(
 //   "users/deleteUser",

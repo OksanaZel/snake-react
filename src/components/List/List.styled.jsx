@@ -10,6 +10,10 @@ export const TabContainer = styled(TableContainer)`
 width: 300px;
 `;
 
+export const Title = styled.h2`
+text-align: center;
+`;
+
 export const Tab = styled(Table)`
 `;
 

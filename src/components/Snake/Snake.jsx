@@ -4,14 +4,13 @@ import { LEFT, UP, RIGHT, DOWN, STOP } from "../utils/constants";
 import { getEmptyRows } from "../utils/getEmptyRows";
 import { getRandomCoordinates } from "../utils/getRandomCoordinates";
 import { increaseSpeed } from "../utils/increaseSpeed";
-import { SnakeBox, SnakeGrid} from "./Snake.styled";
+import { SnakeBox, UserBox, Container, Title, Button, SnakeGrid, ModalButton, ModalText, ModalTitle, ModalButtonContainer } from "./Snake.styled";
+import BasicModal from "../Modal";
 import SnakeBody from "../SnakeBody";
 import SnakeFood from "../SnakeFood";
-// import { changeScore } from "../../redux/actions";
-import { userSelectors, usersOperations, usersActions } from "../../redux";
+import { userSelectors, usersOperations} from "../../redux";
 
 export default function Snake() {
-  const users = useSelector(userSelectors.getUsers);
   const user = useSelector(userSelectors.getCurrentUser);
   const dispatch = useDispatch();
 
@@ -23,10 +22,10 @@ export default function Snake() {
   const [speed, setSpeed] = useState(100);
   const [count, setCount] = useState(0);
   const [score, setScore] = useState(0)
-  // const [alive, setAlive] = useState(false);
-  const [direction, setDirection] = useState(STOP);
+  const [alive, setAlive] = useState(false);
+  const [direction, setDirection] = useState(RIGHT);
   const [grid, setGrid] = useState(getEmptyRows());
-  // const [name, setName] = useState('Play');
+  const [isShowModal, setIsShowModal] = useState(false);
   const intervalId = useRef(null);
   
   useEffect(() => {
@@ -36,17 +35,17 @@ export default function Snake() {
     checkIfEat();
 
     intervalId.current = setInterval(() => {
-      moveSnake();
+      moveSnake(alive);
     }, speed);
     return () => clearInterval(intervalId.current);
   });
 
   useEffect(() => {
     dispatch(usersOperations.fetchAllUsers());
-  }, [dispatch, score]);
+  }, [dispatch]);
 
   function onHandleClick() {
-    dispatch(usersActions.getUser(users[0]))
+    setAlive(true)
   }
 
   function onKeyDown(e) {
@@ -73,8 +72,8 @@ export default function Snake() {
     }
   }
 
-  function moveSnake() {
-    // if (state === true){
+  function moveSnake(alive) {
+    if (alive){
     let dots = [...snakeDots];
     let head = dots[dots.length - 1];
 
@@ -98,7 +97,7 @@ export default function Snake() {
     dots.push(head);
     dots.shift();
     setSnakeDots(dots);
-    // }
+    }
   }
 
   function checkOutOfBorders() {
@@ -129,6 +128,7 @@ export default function Snake() {
     snake.forEach(dot => {
       if (head[0] == dot[0] && head[1] == dot[1]) {
         onGameOver();
+        setIsShowModal(true)
       }
     });
   }
@@ -148,7 +148,6 @@ export default function Snake() {
     setSnakeDots(newSnake);
     setCount(newCountFeed);
     setScore(newScore);
-    dispatch(usersOperations.updateUserScore({id: user.id, score: newScore}));
   }
 
   function checkIfEat() {
@@ -161,35 +160,50 @@ export default function Snake() {
     }
   }
 
+  const toggleModal = () => {
+    setIsShowModal(!isShowModal);
+    setScore(0);
+  }
+
+  const onBtnNoClick = () => {
+    dispatch(usersOperations.createUser({ name: user.name, score: score }));
+    setIsShowModal(!isShowModal);
+    window.location.reload()
+  }
+
   function onGameOver() {
-    // setAlive(false);
+    setAlive(false);
     setSnakeDots([
       [0, 0],
       [4, 0],
     ]);
     setSpeed(100);
-    // setScore(0);
     setCount(0);
     setDirection(RIGHT);
     setGrid(getEmptyRows());
   }
 
-  // function rePlay() {
-  //     setAlive(true);
-  // 	setDirection('RIGHT');
-  // 	setName('Play again');
-  // 	setScore(0);
-  // }
-
   return (
-    <>
-      <button type="button" onClick={onHandleClick}>Play</button>
-      <SnakeBox>
-        
-        {grid.map(row => row.map((column, j) => <SnakeGrid key={j} />))}
-        <SnakeBody snakeDots={snakeDots} />
-        <SnakeFood dot={food} />
-      </SnakeBox>
-    </>
+    <Container>
+        <UserBox>
+          <ModalTitle>{user.name} Score: {score}</ModalTitle>
+          <Button type="button" onClick={onHandleClick}>Play</Button>
+        </UserBox>
+        <SnakeBox>
+          {grid.map(row => row.map((column, j) => <SnakeGrid key={j} />))}
+            <SnakeBody snakeDots={snakeDots} />
+            <SnakeFood dot={food} />
+        </SnakeBox>
+        <BasicModal open={isShowModal} onClick={toggleModal} onClose={toggleModal}>
+          <Title>Game over</Title>
+          <ModalText>Play again?</ModalText>
+          <ModalButtonContainer>
+            <ModalButton type="button" onClick={toggleModal}>Yes</ModalButton>
+          {/* <ModalButton type="button" onClick={() => dispatch(usersOperations.createUser({name:user.name, score: score}))}>No</ModalButton> */}
+          <ModalButton type="button" onClick={onBtnNoClick}>No</ModalButton>
+          
+        </ModalButtonContainer>
+        </BasicModal>
+      </Container>
   );
 }

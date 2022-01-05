@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Form, Label, Input, Button } from "./UserFrom.styled";
-import { usersOperations} from "../../redux";
+import { usersActions} from "../../redux";
 
 function UserForm() {
   const dispatch = useDispatch();
@@ -19,7 +19,10 @@ function UserForm() {
         .required("Required"),
     }),
     onSubmit: (values, { setSubmitting, resetForm }) => {
-      dispatch(usersOperations.createUser(values)), setSubmitting(false), resetForm();
+      // dispatch(usersOperations.createUser(values)),
+      dispatch(usersActions.getUser(values))
+        setSubmitting(false),
+        resetForm();
     },
   });
   return (

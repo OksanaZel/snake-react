@@ -1,6 +1,7 @@
 import axios from "axios";
 
 axios.defaults.baseURL = "https://snake-back-postgres.herokuapp.com";
+// axios.defaults.baseURL = "http://localhost:4000";
 
 export async function getAllUsers() {
   const { data } = await axios.get(`/api/user`);
@@ -17,10 +18,10 @@ export async function createUser(userData) {
 //   return data.data;
 // }
 
-export async function updateUserScore({ id, score }) {
-  const { data } = await axios.patch(`api/user/${id}`, { score });
-  return data.data;
-}
+// export async function updateUserScore({ id, score }) {
+//   const { data } = await axios.patch(`api/user/${id}`, { score });
+//   return data.data;
+// }
 
 // export async function deleteUser(id) {
 //   await axios.delete(`/user/${id}`);

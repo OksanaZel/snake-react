@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import { useSelector,  useDispatch } from "react-redux";
-import { TabContainer, Tab, TabCell, TabHead, TabRow, TabBody } from "./List.styled";
+import { Title, TabContainer, Tab, TabCell, TabHead, TabRow, TabBody } from "./List.styled";
 import { userSelectors, usersOperations } from "../../redux";
 
 function List() {
@@ -14,7 +14,7 @@ function List() {
 
   return (
     <TabContainer>
-      <h2>Records List</h2>
+      <Title>List of record holders</Title>
       <Tab>
         <TabHead>
           <TabRow>

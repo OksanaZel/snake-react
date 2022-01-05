@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { SnakeDot } from "../Snake/Snake.styled";
 
 function SnakeBody({ snakeDots }) {
@@ -14,5 +15,9 @@ function SnakeBody({ snakeDots }) {
     </div>
   );
 }
+
+SnakeBody.propTypes = {
+  snakeDots: PropTypes.node,
+};
 
 export default SnakeBody;

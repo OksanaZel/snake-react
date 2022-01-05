@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { FoodDot } from "./SnakeFood.styled";
 
 function SnakeFood({ dot }) {
@@ -8,5 +9,9 @@ function SnakeFood({ dot }) {
   };
   return <FoodDot style={style}></FoodDot>;
 }
+
+SnakeFood.propTypes = {
+  snakeDots: PropTypes.node,
+};
 
 export default SnakeFood;
